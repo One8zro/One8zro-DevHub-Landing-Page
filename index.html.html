@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevHub - Landing Page</title>
+    <!-- مكتبة الأيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- تنسيقات الـ CSS مدمجة بالكامل هنا لتجنب أي مشاكل في الملفات -->
+    <style>
+        /* إعدادات عامة */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #050814;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* شريط التنقل العلوي */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(11, 15, 25, 0.95);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00f2fe;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links li {
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #00f2fe;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        /* إخفاء زر القائمة على الشاشات الكبيرة */
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            color: #00f2fe;
+            cursor: pointer;
+        }
+
+        /* القائمة المنسدلة للكمبيوتر */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #0b0f19;
+            list-style: none;
+            width: 160px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            width: 100%;
+        }
+
+        .dropdown-menu a {
+            padding: 10px 15px;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(0, 242, 254, 0.1);
+            padding-left: 20px;
+        }
+
+        /* زر التسجيل */
+        .btn-signup {
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+            color: #000 !important;
+            border-radius: 6px;
+            font-weight: bold !important;
+        }
+
+        .btn-signup:hover {
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.6);
+        }
+
+        /* القسم الرئيسي */
+        .hero {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero-content h1 span {
+            color: #00f2fe;
+            text-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+
+        .explore-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            color: #00f2fe;
+            border: 2px solid #00f2fe;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+        }
+
+        .explore-btn:hover {
+            background: #00f2fe;
+            color: #000;
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.8);
+        }
+
+        /* تصميم الجوال (Responsive) */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(11, 15, 25, 0.98);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px;
+                gap: 15px;
+                border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+                display: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li, .nav-links a {
+                width: 100%;
+            }
+
+            .dropdown-menu {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                border: none;
+                background: rgba(255, 255, 255, 0.03);
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                display: none;
+            }
+
+            .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+
+            .hero-content h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التنقل العلوي -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fas fa-code"></i> <span>one8zro</span>
+        </div>
+
+        <!-- زر القائمة للجوال -->
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+            
+            <!-- قائمة منسدلة -->
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-graduation-cap"></i> Learn <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"><i class="fab fa-html5"></i> HTML</a></li>
+                    <li><a href="#"><i class="fab fa-css3-alt"></i> CSS</a></li>
+                    <li><a href="#"><i class="fab fa-js"></i> JavaScript</a></li>
+                    <li><a href="#"><i class="fab fa-php"></i> PHP</a></li>
+                    <li><a href="#"><i class="fas fa-database"></i> SQL</a></li>
+                </ul>
+            </li>
+
+            <li><a href="#"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            <li><a href="#" class="btn-signup"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            <li><a href="#"><i class="fas fa-envelope"></i> Email</a></li>
+        </ul>
+    </header>
+
+    <!-- القسم الرئيسي -->
+    <main class="hero">
+        <div class="hero-content">
+            <h1>Welcome to My <span>Masterpiece</span></h1>
+            <p>Explore the ultimate development hub. Clean code, futuristic design, and endless possibilities.</p>
+            <a href="#" class="explore-btn">Get Started</a>
+        </div>
+    </main>
+
+    <!-- جافاسكريبت لقائمة الجوال -->
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileMenu.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+    </script>
+</body>
+</html>
